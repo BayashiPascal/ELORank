@@ -7,7 +7,7 @@ GSETDIR=../GSet
 # 0: development (max safety, no optimisation)
 # 1: release (min safety, optimisation)
 # 2: fast and furious (no safety, optimisation)
-BUILDMODE=0
+BUILDMODE=1
 
 include $(PBERRDIR)/Makefile.inc
 
@@ -32,10 +32,10 @@ elorank.o : elorank.c elorank.h elorank-inline.c Makefile
 pberr.o : $(PBERRDIR)/pberr.c $(PBERRDIR)/pberr.h Makefile
 	$(COMPILER) $(BUILDOPTIONS) -c $(PBERRDIR)/pberr.c
 
-pbmath.o : $(PBMATHDIR)/pbmath.c $(PBMATHDIR)/pbmath-inline.c $(PBMATHDIR)/pbmath.h Makefile
+pbmath.o : $(PBMATHDIR)/pbmath.c $(PBMATHDIR)/pbmath-inline.c $(PBMATHDIR)/pbmath.h Makefile $(PBERRDIR)/pberr.h
 	$(COMPILER) $(BUILDOPTIONS) -c $(PBMATHDIR)/pbmath.c
 
-gset.o : $(GSETDIR)/gset.c $(GSETDIR)/gset-inline.c $(GSETDIR)/gset.h Makefile
+gset.o : $(GSETDIR)/gset.c $(GSETDIR)/gset-inline.c $(GSETDIR)/gset.h Makefile $(PBERRDIR)/pberr.h
 	$(COMPILER) $(BUILDOPTIONS) -c $(GSETDIR)/gset.c
 
 clean : 
