@@ -1,0 +1,84 @@
+\section*{Introduction}
+
+ELORank is a C library providing structures and functions implementing the ELO ranking system in a version supporting several players per run with eventual ties.\\ 
+
+It uses the \begin{ttfamily}PBErr\end{ttfamily}, \begin{ttfamily}PBMath\end{ttfamily} and \begin{ttfamily}GSet\end{ttfamily} library.\\
+
+\section{Definitions}
+
+The ELO rank is calculated incrementally by updating the current ELO rank of each entity according to their result in an evaluation process independant from the ELO ranking system. Given a result of this evaluation process, each pair of winner/looser in this result is updated as follow:\\
+
+\begin{equation}
+\left\lbrace
+\begin{array}{l}
+E'_w=E_w+K*\left(1.0-\frac{1.0}{1.0+10.0^{\frac{E_l-E_w}{400.0}}}\right)\\
+E'_l=E_l-K*\left(\frac{1.0}{1.0+10.0^{\frac{E_w-E_l}{400.0}}}\right)\\
+\end{array}
+\right.
+\end{equation}
+
+where $K=8.0$ and, $E_w$ and $E_l$ are respectively the current ELO of the winner and the current ELO of the looser and, $E'_w$ and $E'_l$ are respectively the new ELO of the winner and the new ELO of the looser.\\
+
+Tie between two entities results in no changes in their respective ELO rank.
+
+\section{Interface}
+
+\begin{scriptsize}
+\begin{ttfamily}
+\verbatiminput{/home/bayashi/Coding/ELORank/elorank.h}
+\end{ttfamily}
+\end{scriptsize}
+
+\section{Code}
+
+\subsection{elorank.c}
+
+\begin{scriptsize}
+\begin{ttfamily}
+\verbatiminput{/home/bayashi/Coding/ELORank/elorank.c}
+\end{ttfamily}
+\end{scriptsize}
+
+\subsection{elorank-inline.c}
+
+\begin{scriptsize}
+\begin{ttfamily}
+\verbatiminput{/home/bayashi/Coding/ELORank/elorank-inline.c}
+\end{ttfamily}
+\end{scriptsize}
+
+\section{Makefile}
+
+\begin{scriptsize}
+\begin{ttfamily}
+\verbatiminput{/home/bayashi/Coding/ELORank/Makefile}
+\end{ttfamily}
+\end{scriptsize}
+
+\section{Unit tests}
+
+\begin{scriptsize}
+\begin{ttfamily}
+\verbatiminput{/home/bayashi/Coding/ELORank/main.c}
+\end{ttfamily}
+\end{scriptsize}
+
+\section{Unit tests output}
+
+\begin{scriptsize}
+\begin{ttfamily}
+\verbatiminput{/home/bayashi/Coding/ELORank/unitTestRef.txt}
+\end{ttfamily}
+\end{scriptsize}
+
+\section{ELORank.txt}
+
+\begin{scriptsize}
+\begin{ttfamily}
+\verbatiminput{/home/bayashi/Coding/ELORank/elorank.txt}
+\end{ttfamily}
+\end{scriptsize}
+
+\begin{center}
+\includegraphics[width=10cm]{elorank.png}
+\end{center} 
