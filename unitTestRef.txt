@@ -1,0 +1,5 @@
+UnitTestCreateFree OK
+UnitTestSetGetK OK
+UnitTestAddRemoveGetNb OK
+UnitTestUpdateGetRankGetElo OK
+UnitTestAll OK
