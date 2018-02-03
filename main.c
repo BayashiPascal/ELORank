@@ -16,7 +16,7 @@ typedef struct Player {
 } Player;
 
 void UnitTestCreateFree() {
-  ELORank *elo = ELORankCreate();
+  ELORank* elo = ELORankCreate();
   if (elo == NULL || elo->_k != ELORANK_K) {
     ELORankErr->_type = PBErrTypeUnitTestFailed;
     sprintf(ELORankErr->_msg, "ELORankCreate failed");
@@ -32,7 +32,7 @@ void UnitTestCreateFree() {
 }
 
 void UnitTestSetGetK() {
-  ELORank *elo = ELORankCreate();
+  ELORank* elo = ELORankCreate();
   float k = 1.0;
   ELORankSetK(elo, k);
   if (ISEQUALF(elo->_k, k) == false) {
@@ -50,7 +50,7 @@ void UnitTestSetGetK() {
 }
 
 void UnitTestAddRemoveGetNb() {
-  ELORank *elo = ELORankCreate();
+  ELORank* elo = ELORankCreate();
   Player *playerA = PBErrMalloc(ELORankErr, sizeof(Player));
   Player *playerB = PBErrMalloc(ELORankErr, sizeof(Player));
   ELORankAdd(elo, playerA);
@@ -105,7 +105,7 @@ void UnitTestAddRemoveGetNb() {
 
 void UnitTestUpdateGetRankGetElo() {
   srandom(RANDOMSEED);
-  ELORank *elo = ELORankCreate();
+  ELORank* elo = ELORankCreate();
   Player *players[3] = {NULL};
   GSet res = GSetCreateStatic();
   Gauss gausses[3];

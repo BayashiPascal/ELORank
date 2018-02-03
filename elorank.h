@@ -72,10 +72,10 @@ inline
 float ELORankGetK(ELORank* that);
 
 // Add the entity 'data' to 'that' 
-void ELORankAdd(ELORank* that, void *data);
+void ELORankAdd(ELORank* that, void* data);
 
 // Remove the entity 'data' from 'that' 
-void ELORankRemove(ELORank* that, void *data);
+void ELORankRemove(ELORank* that, void* data);
 
 // Get the number of entity in 'that'
 #if BUILDMODE != 0
@@ -90,17 +90,17 @@ int ELORankGetNb(ELORank* that);
 // of the entities for this update (thus, equal _sortVal means tie)
 // The set of results must contain at least 2 elements
 // Elements in the result set must be in the ELORank 
-void ELORankUpdate(ELORank *that, GSet *res);
+void ELORankUpdate(ELORank* that, GSet* res);
 
 // Get the current rank of the entity 'data' (starts at 0)
-int ELORankGetRank(ELORank *that, void* data);
+int ELORankGetRank(ELORank* that, void* data);
 
 // Get the current ELO of the entity 'data'
-float ELORankGetELO(ELORank *that, void* data);
+float ELORankGetELO(ELORank* that, void* data);
 
 // Get the 'rank'-th entity according to current ELO of 'that'  
 // (starts at 0)
-ELOEntity* ELORankGetRanked(ELORank *that, int rank);
+ELOEntity* ELORankGetRanked(ELORank* that, int rank);
 
 // ================ Inliner ====================
 

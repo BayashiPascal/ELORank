@@ -10,17 +10,17 @@
 // ================ Functions declaration ====================
 
 // Create a new ELOEntity
-static ELOEntity* ELOEntityCreate(void *data);
+static ELOEntity* ELOEntityCreate(void* data);
 
 // Return the GSetElem in 'that'->_set for the entity 'data'
-static GSetElem* ELORankGetElem(ELORank *that, void *data);
+static GSetElem* ELORankGetElem(ELORank* that, void* data);
 
 // ================ Functions implementation ====================
 
 // Create a new ELORank
 ELORank* ELORankCreate(void) {
   // Allocate memory
-  ELORank *that = PBErrMalloc(ELORankErr, sizeof(ELORank));
+  ELORank* that = PBErrMalloc(ELORankErr, sizeof(ELORank));
   // Set the default coefficient
   that->_k = ELORANK_K;
   // Create the set of entities
@@ -34,7 +34,7 @@ void ELORankFree(ELORank** that) {
   // Check the argument
   if (that == NULL || *that == NULL) return;
   // Empty the set of entities
-  GSet *set = &((*that)->_set);
+  GSet* set = &((*that)->_set);
   while (GSetNbElem(set) > 0) {
     ELOEntity *ent = GSetPop(set);
     ELOEntityFree(&ent);
@@ -56,7 +56,7 @@ void ELOEntityFree(ELOEntity** that) {
 }
 
 // Add the entity 'data' to 'that' 
-void ELORankAdd(ELORank* that, void *data) {
+void ELORankAdd(ELORank* that, void* data) {
 #if BUILDMODE == 0
   // Check arguments
   if (that == NULL) {
@@ -77,7 +77,7 @@ void ELORankAdd(ELORank* that, void *data) {
 }
 
 // Create a new ELOEntity
-static ELOEntity* ELOEntityCreate(void *data) {
+static ELOEntity* ELOEntityCreate(void* data) {
 #if BUILDMODE == 0
   // Check argument
   if (data == NULL) {
@@ -96,7 +96,7 @@ static ELOEntity* ELOEntityCreate(void *data) {
 }
 
 // Remove the entity 'data' from 'that' 
-void ELORankRemove(ELORank* that, void *data) {
+void ELORankRemove(ELORank* that, void* data) {
 #if BUILDMODE == 0
   // Check arguments
   if (that == NULL) {
@@ -111,7 +111,7 @@ void ELORankRemove(ELORank* that, void *data) {
   }
 #endif
   // Search the entity
-  GSetElem *elem = ELORankGetElem(that, data);
+  GSetElem* elem = ELORankGetElem(that, data);
   // If we have found the entity
   if (elem != NULL) {
     // Free the memory 
@@ -122,7 +122,7 @@ void ELORankRemove(ELORank* that, void *data) {
 }
 
 // Return the GSetElem in 'that'->_set for the entity 'data'
-static GSetElem* ELORankGetElem(ELORank *that, void *data) {
+static GSetElem* ELORankGetElem(ELORank* that, void* data) {
 #if BUILDMODE == 0
   // Check arguments
   if (that == NULL) {
@@ -137,7 +137,7 @@ static GSetElem* ELORankGetElem(ELORank *that, void *data) {
   }
 #endif
   // Search the element
-  GSetElem *elem = that->_set._head;
+  GSetElem* elem = that->_set._head;
   while (elem != NULL && ((ELOEntity*)(elem->_data))->_data != data)
     elem = elem->_next;
   // Return the element
@@ -151,7 +151,7 @@ static GSetElem* ELORankGetElem(ELORank *that, void *data) {
 // of the entities for this update (thus, equal _sortVal means tie)
 // The set of results must contain at least 2 elements
 // Elements in the result set must be in the ELORank 
-void ELORankUpdate(ELORank *that, GSet *res) {
+void ELORankUpdate(ELORank* that, GSet* res) {
 #if BUILDMODE == 0
   // Check arguments
   if (that == NULL) {
@@ -173,12 +173,12 @@ void ELORankUpdate(ELORank *that, GSet *res) {
   }
 #endif
   // Declare a variable to memorise the delta of elo of each entity
-  VecFloat *deltaElo = VecFloatCreate(GSetNbElem(res));
+  VecFloat* deltaElo = VecFloatCreate(GSetNbElem(res));
   // Calculate the delta of elo for each pair of entity
-  GSetElem *elemA = res->_head;
+  GSetElem* elemA = res->_head;
   int iElem = 0;
   while (elemA != NULL) {
-    GSetElem *elemAElo = ELORankGetElem(that, elemA->_data);
+    GSetElem* elemAElo = ELORankGetElem(that, elemA->_data);
 #if BUILDMODE == 0
     if (elemAElo == NULL) {
       ELORankErr->_type = PBErrTypeNullPointer;
@@ -187,11 +187,11 @@ void ELORankUpdate(ELORank *that, GSet *res) {
       PBErrCatch(ELORankErr);
     }
 #endif
-    GSetElem *elemB = res->_head;
+    GSetElem* elemB = res->_head;
     while (elemB != NULL) {
       // Ignore tie and match with itself
       if (ISEQUALF(elemA->_sortVal, elemB->_sortVal) == false) {
-        GSetElem *elemBElo = ELORankGetElem(that, elemB->_data);
+        GSetElem* elemBElo = ELORankGetElem(that, elemB->_data);
 #if BUILDMODE == 0
         if (elemBElo == NULL) {
           ELORankErr->_type = PBErrTypeNullPointer;
@@ -224,10 +224,10 @@ void ELORankUpdate(ELORank *that, GSet *res) {
     ++iElem;
   }
   // Apply the delta of elo and update the number of run
-  GSetElem *elem = res->_head;
+  GSetElem* elem = res->_head;
   iElem = 0;
   while (elem != NULL) {
-    GSetElem *elemElo = ELORankGetElem(that, elem->_data);
+    GSetElem* elemElo = ELORankGetElem(that, elem->_data);
 #if BUILDMODE == 0
     if (elemElo == NULL) {
       ELORankErr->_type = PBErrTypeNullPointer;
@@ -248,7 +248,7 @@ void ELORankUpdate(ELORank *that, GSet *res) {
 }
 
 // Get the current rank of the entity 'data' (starts at 0)
-int ELORankGetRank(ELORank *that, void* data) {
+int ELORankGetRank(ELORank* that, void* data) {
 #if BUILDMODE == 0
   // Check arguments
   if (that == NULL) {
@@ -265,7 +265,7 @@ int ELORankGetRank(ELORank *that, void* data) {
   // Declare a variable to memorize the rank
   int rank = 0;
   // Search the element
-  GSetElem *elem = that->_set._tail;
+  GSetElem* elem = that->_set._tail;
   while (elem != NULL && ((ELOEntity*)(elem->_data))->_data != data) {
     elem = elem->_prev;
     ++rank;
@@ -283,7 +283,7 @@ int ELORankGetRank(ELORank *that, void* data) {
 }
 
 // Get the current ELO of the entity 'data'
-float ELORankGetELO(ELORank *that, void* data) {
+float ELORankGetELO(ELORank* that, void* data) {
 #if BUILDMODE == 0
   // Check arguments
   if (that == NULL) {
@@ -300,7 +300,7 @@ float ELORankGetELO(ELORank *that, void* data) {
   // Declare a variable to memorize the ELO
   float elo = ELORANK_STARTELO;
   // Search the element
-  GSetElem *elem = that->_set._head;
+  GSetElem* elem = that->_set._head;
   elo = elem->_sortVal;
   while (elem != NULL && ((ELOEntity*)(elem->_data))->_data != data) {
     elem = elem->_next;
@@ -320,7 +320,7 @@ float ELORankGetELO(ELORank *that, void* data) {
 
 // Get the 'rank'-th entity according to current ELO of 'that'  
 // (starts at 0)
-ELOEntity* ELORankGetRanked(ELORank *that, int rank) {
+ELOEntity* ELORankGetRanked(ELORank* that, int rank) {
 #if BUILDMODE == 0
   // Check arguments
   if (that == NULL) {
@@ -335,7 +335,7 @@ ELOEntity* ELORankGetRanked(ELORank *that, int rank) {
     PBErrCatch(ELORankErr);
   }
 #endif
-  GSetElem *elem = that->_set._tail;
+  GSetElem* elem = that->_set._tail;
   for (int i = rank; i--;)
     elem = elem->_prev;
   return (ELOEntity*)(elem->_data);
