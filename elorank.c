@@ -206,16 +206,14 @@ void ELORankUpdate(ELORank* that, GSet* res) {
           float looserELO = elemBElo->_sortVal;
           float a = 
             1.0 / (1.0 + pow(10.0, (looserELO - winnerELO) / 400.0));
-          VecSet(deltaElo, iElem, 
-            VecGet(deltaElo, iElem) + that->_k * (1.0 - a));
+          VecSetAdd(deltaElo, iElem, that->_k * (1.0 - a));
         // Else, if elemA has lost
         } else {
           float winnerELO = elemBElo->_sortVal;
           float looserELO = elemAElo->_sortVal;
           float b = 
             1.0 / (1.0 + pow(10.0, (winnerELO - looserELO) / 400.0));
-          VecSet(deltaElo, iElem, 
-            VecGet(deltaElo, iElem) - that->_k * b);
+          VecSetAdd(deltaElo, iElem, -1.0 * that->_k * b);
         }
       }
       elemB = elemB->_next;
