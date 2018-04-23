@@ -19,15 +19,6 @@
 #define ELORANK_K 8.0
 #define ELORANK_STARTELO 100.0
 
-// ================= Polymorphism ==================
-
-/*
-#define VecClone(V) _Generic((V), \
-  VecFloat*: VecFloatClone, \
-  VecShort*: VecShortClone, \
-  default: PBErrInvalidPolymorphism)(V)
-*/
-
 // ================= Data structure ===================
 
 typedef struct ELOEntity {
