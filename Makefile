@@ -2,6 +2,8 @@
 PBERRDIR=../PBErr
 PBMATHDIR=../PBMath
 GSETDIR=../GSet
+GTREEDIR=../GTree
+PBJSONDIR=../PBJson
 
 # Build mode
 # 0: development (max safety, no optimisation)
@@ -11,7 +13,7 @@ BUILDMODE=1
 
 include $(PBERRDIR)/Makefile.inc
 
-INCPATH=-I./ -I$(PBERRDIR)/ -I$(GSETDIR)/ -I$(PBMATHDIR)/
+INCPATH=-I./ -I$(PBERRDIR)/ -I$(GSETDIR)/ -I$(PBMATHDIR)/ -I$(PBJSONDIR)/ -I$(GTREEDIR)/
 BUILDOPTIONS=$(BUILDPARAM) $(INCPATH)
 
 # compiler
@@ -20,11 +22,14 @@ COMPILER=gcc
 #rules
 all : main
 
-main: main.o pberr.o gset.o elorank.o pbmath.o Makefile 
-	$(COMPILER) main.o pberr.o gset.o elorank.o pbmath.o $(LINKOPTIONS) -o main
+main: main.o pberr.o gset.o elorank.o pbmath.o pbjson.o gtree.o Makefile 
+	$(COMPILER) main.o pberr.o gset.o elorank.o pbmath.o pbjson.o gtree.o $(LINKOPTIONS) -o main
 
 main.o : main.c $(PBERRDIR)/pberr.h $(GSETDIR)/gset.h elorank.h elorank-inline.c Makefile
 	$(COMPILER) $(BUILDOPTIONS) -c main.c
+
+pbjson.o : $(PBJSONDIR)/pbjson.c $(PBJSONDIR)/pbjson-inline.c $(PBJSONDIR)/pbjson.h Makefile
+	$(COMPILER) $(BUILDOPTIONS) -c $(PBJSONDIR)/pbjson.c
 
 elorank.o : elorank.c elorank.h elorank-inline.c Makefile
 	$(COMPILER) $(BUILDOPTIONS) -c elorank.c
