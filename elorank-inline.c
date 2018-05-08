@@ -6,7 +6,7 @@
 #if BUILDMODE != 0
 inline
 #endif
-void ELORankSetK(ELORank* that, float k) {
+void ELORankSetK(ELORank* const that, const float k) {
 #if BUILDMODE == 0
   // Check arguments
   if (that == NULL) {
@@ -22,7 +22,7 @@ void ELORankSetK(ELORank* that, float k) {
 #if BUILDMODE != 0
 inline
 #endif
-float ELORankGetK(ELORank* that) {
+float ELORankGetK(const ELORank* const that) {
 #if BUILDMODE == 0
   // Check argument
   if (that == NULL) {
@@ -38,7 +38,7 @@ float ELORankGetK(ELORank* that) {
 #if BUILDMODE != 0
 inline
 #endif
-int ELORankGetNb(ELORank* that) {
+int ELORankGetNb(const ELORank* const that) {
 #if BUILDMODE == 0
   // Check argument
   if (that == NULL) {
@@ -49,3 +49,4 @@ int ELORankGetNb(ELORank* that) {
 #endif
   return GSetNbElem(&(that->_set));
 }
+

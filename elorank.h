@@ -54,25 +54,25 @@ void ELOEntityFree(ELOEntity** that);
 #if BUILDMODE != 0
 inline
 #endif
-void ELORankSetK(ELORank* that, float k);
+void ELORankSetK(ELORank* const that, const float k);
 
 // Get the K coefficient of 'that' 
 #if BUILDMODE != 0
 inline
 #endif
-float ELORankGetK(ELORank* that);
+float ELORankGetK(const ELORank* const that);
 
 // Add the entity 'data' to 'that' 
-void ELORankAdd(ELORank* that, void* data);
+void ELORankAdd(ELORank* const that, void* const data);
 
 // Remove the entity 'data' from 'that' 
-void ELORankRemove(ELORank* that, void* data);
+void ELORankRemove(ELORank* const that, void* data);
 
 // Get the number of entity in 'that'
 #if BUILDMODE != 0
 inline
 #endif
-int ELORankGetNb(ELORank* that);
+int ELORankGetNb(const ELORank* const that);
 
 // Update the ranks in 'that' with results 'res' given as a GSet of 
 // pointers toward entities (_data in GSetElem equals _data in 
@@ -81,17 +81,17 @@ int ELORankGetNb(ELORank* that);
 // of the entities for this update (thus, equal _sortVal means tie)
 // The set of results must contain at least 2 elements
 // Elements in the result set must be in the ELORank 
-void ELORankUpdate(ELORank* that, GSet* res);
+void ELORankUpdate(ELORank* const that, const GSet* const res);
 
 // Get the current rank of the entity 'data' (starts at 0)
-int ELORankGetRank(ELORank* that, void* data);
+int ELORankGetRank(const ELORank* const that, const void* const data);
 
 // Get the current ELO of the entity 'data'
-float ELORankGetELO(ELORank* that, void* data);
+float ELORankGetELO(const ELORank* const that, const void* const data);
 
 // Get the 'rank'-th entity according to current ELO of 'that'  
 // (starts at 0)
-ELOEntity* ELORankGetRanked(ELORank* that, int rank);
+ELOEntity* ELORankGetRanked(const ELORank* const that, const int rank);
 
 // ================ Inliner ====================
 
