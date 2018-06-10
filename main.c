@@ -135,7 +135,7 @@ void UnitTestUpdateGetRankGetElo() {
       PBErrCatch(ELORankErr);
     }
   }
-  ELOEntity *winner = ELORankGetRanked(elo, 0);
+  const ELOEntity *winner = ELORankGetRanked(elo, 0);
   if (winner->_data != players[0]) {
     ELORankErr->_type = PBErrTypeUnitTestFailed;
     sprintf(ELORankErr->_msg, "ELORankGeRanked failed");
