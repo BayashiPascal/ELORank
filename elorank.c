@@ -167,7 +167,7 @@ void ELORankUpdate(ELORank* const that, const GSet* const res) {
   if (GSetNbElem(res) < 2) {
     ELORankErr->_type = PBErrTypeInvalidArg;
     sprintf(ELORankErr->_msg, 
-      "Number of elements in result set invalid (%d>=2)",
+      "Number of elements in result set invalid (%ld>=2)",
       GSetNbElem(res));
     PBErrCatch(ELORankErr);
   }
@@ -328,7 +328,7 @@ const ELOEntity* ELORankGetRanked(const ELORank* const that, const int rank) {
   }
   if (rank < 0 || rank >= GSetNbElem(&(that->_set))) {
     ELORankErr->_type = PBErrTypeInvalidArg;
-    sprintf(ELORankErr->_msg, "'rank' is invalid (0<=%d<%d)", rank, 
+    sprintf(ELORankErr->_msg, "'rank' is invalid (0<=%d<%ld)", rank, 
       GSetNbElem(&(that->_set)));
     PBErrCatch(ELORankErr);
   }
