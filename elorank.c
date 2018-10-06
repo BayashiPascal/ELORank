@@ -299,19 +299,19 @@ float ELORankGetELO(const ELORank* const that, const void* const data) {
   float elo = ELORANK_STARTELO;
   // Search the element
   GSetElem* elem = that->_set._head;
-  elo = elem->_sortVal;
   while (elem != NULL && ((ELOEntity*)(elem->_data))->_data != data) {
     elem = elem->_next;
-    elo = elem->_sortVal;
   }
+  if (elem != NULL) {
+    elo = elem->_sortVal;
 #if BUILDMODE == 0
-  if (elem == NULL) {
+  } else {
     ELORankErr->_type = PBErrTypeNullPointer;
     sprintf(ELORankErr->_msg, 
       "Entity requested can't be found in the ELORank.");
     PBErrCatch(ELORankErr);
-  }
 #endif  
+  }
   // Return the element
   return elo;
 }
