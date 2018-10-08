@@ -17,7 +17,7 @@
 // ================= Define ==================
 
 #define ELORANK_K 8.0
-#define ELORANK_STARTELO 100.0
+#define ELORANK_STARTELO 0.0
 
 // ================= Data structure ===================
 
