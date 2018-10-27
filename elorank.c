@@ -316,6 +316,40 @@ float ELORankGetELO(const ELORank* const that, const void* const data) {
   return elo;
 }
 
+// Set the current ELO of the entity 'data' to 'elo'
+void ELORankSetELO(const ELORank* const that, const void* const data, 
+  const float elo) {
+#if BUILDMODE == 0
+  // Check arguments
+  if (that == NULL) {
+    ELORankErr->_type = PBErrTypeNullPointer;
+    sprintf(ELORankErr->_msg, "'that' is null");
+    PBErrCatch(ELORankErr);
+  }
+  if (data == NULL) {
+    ELORankErr->_type = PBErrTypeNullPointer;
+    sprintf(ELORankErr->_msg, "'data' is null");
+    PBErrCatch(ELORankErr);
+  }
+#endif
+  // Search the element
+  GSetElem* elem = that->_set._head;
+  while (elem != NULL && ((ELOEntity*)(elem->_data))->_data != data) {
+    elem = elem->_next;
+  }
+  if (elem != NULL) {
+    // Set the elo
+    elem->_sortVal = elo;
+#if BUILDMODE == 0
+  } else {
+    ELORankErr->_type = PBErrTypeNullPointer;
+    sprintf(ELORankErr->_msg, 
+      "Entity requested can't be found in the ELORank.");
+    PBErrCatch(ELORankErr);
+#endif  
+  }
+}
+
 // Get the 'rank'-th entity according to current ELO of 'that'  
 // (starts at 0)
 const ELOEntity* ELORankGetRanked(const ELORank* const that, const int rank) {

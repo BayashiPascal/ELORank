@@ -2,8 +2,8 @@
 \contentsline {section}{\numberline {2}Interface}{2}
 \contentsline {section}{\numberline {3}Code}{4}
 \contentsline {subsection}{\numberline {3.1}elorank.c}{4}
-\contentsline {subsection}{\numberline {3.2}elorank-inline.c}{9}
-\contentsline {section}{\numberline {4}Makefile}{10}
+\contentsline {subsection}{\numberline {3.2}elorank-inline.c}{10}
+\contentsline {section}{\numberline {4}Makefile}{11}
 \contentsline {section}{\numberline {5}Unit tests}{11}
 \contentsline {section}{\numberline {6}Unit tests output}{14}
-\contentsline {section}{\numberline {7}ELORank.txt}{14}
+\contentsline {section}{\numberline {7}ELORank.txt}{15}

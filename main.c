@@ -146,6 +146,12 @@ void UnitTestUpdateGetRankGetElo() {
     sprintf(ELORankErr->_msg, "nbRun invalid");
     PBErrCatch(ELORankErr);
   }
+  ELORankSetELO(elo, players[0], 10.0);
+  if (!ISEQUALF(ELORankGetELO(elo, players[0]), 10.0)) {
+    ELORankErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(ELORankErr->_msg, "ELORankSetELO failed");
+    PBErrCatch(ELORankErr);
+  }
   ELORankFree(&elo);
   GSetFlush(&res);
   for (int i = 3; i--;)

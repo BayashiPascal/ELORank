@@ -89,6 +89,10 @@ int ELORankGetRank(const ELORank* const that, const void* const data);
 // Get the current ELO of the entity 'data'
 float ELORankGetELO(const ELORank* const that, const void* const data);
 
+// Set the current ELO of the entity 'data' to 'elo'
+void ELORankSetELO(const ELORank* const that, const void* const data, 
+  const float elo);
+
 // Get the 'rank'-th entity according to current ELO of 'that'  
 // (starts at 0)
 const ELOEntity* ELORankGetRanked(const ELORank* const that, const int rank);
