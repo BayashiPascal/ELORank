@@ -26,6 +26,8 @@ typedef struct ELOEntity {
   void* _data;
   // Number of evaluation
   int _nbRun;
+  // Sum of evalutation
+  float _sumElo;
 } ELOEntity;
 
 typedef struct ELORank {
@@ -89,9 +91,17 @@ int ELORankGetRank(const ELORank* const that, const void* const data);
 // Get the current ELO of the entity 'data'
 float ELORankGetELO(const ELORank* const that, const void* const data);
 
+// Get the current soft ELO (average of elo over nb of evaluation) 
+// of the entity 'data'
+float ELORankGetSoftELO(const ELORank* const that, 
+  const void* const data);
+
 // Set the current ELO of the entity 'data' to 'elo'
 void ELORankSetELO(const ELORank* const that, const void* const data, 
   const float elo);
+
+// Reset the current ELO of the entity 'data'
+void ELORankResetELO(const ELORank* const that, const void* const data);
 
 // Get the 'rank'-th entity according to current ELO of 'that'  
 // (starts at 0)

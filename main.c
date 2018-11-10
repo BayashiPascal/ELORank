@@ -122,10 +122,13 @@ void UnitTestUpdateGetRankGetElo() {
     for (int i = 3; i--;)
       GSetAddSort(&res, players[i], GaussRnd(gausses + i));
     ELORankUpdate(elo, &res);
-    fprintf(f, "%d %f %f %f\n", (nbRun - iRun), 
+    fprintf(f, "%d %f %f %f %f %f %f\n", (nbRun - iRun), 
       ELORankGetELO(elo, players[0]), 
       ELORankGetELO(elo, players[1]), 
-      ELORankGetELO(elo, players[2]));
+      ELORankGetELO(elo, players[2]),
+      ELORankGetSoftELO(elo, players[0]), 
+      ELORankGetSoftELO(elo, players[1]), 
+      ELORankGetSoftELO(elo, players[2]));
   }
   fclose(f);
   for (int i = 3; i--;) {

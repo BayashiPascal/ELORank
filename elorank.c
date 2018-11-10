@@ -91,6 +91,7 @@ static ELOEntity* ELOEntityCreate(void* const data) {
   // Set properties
   that->_data = data;
   that->_nbRun = 0;
+  that->_sumElo = 0.0;
   // Return the new ELOEntity
   return that;
 }
@@ -236,6 +237,7 @@ void ELORankUpdate(ELORank* const that, const GSet* const res) {
 #endif
     elemElo->_sortVal += VecGet(deltaElo, iElem);
     ++(((ELOEntity*)(elemElo->_data))->_nbRun);
+    ((ELOEntity*)(elemElo->_data))->_sumElo += elemElo->_sortVal;
     ++iElem;
     elem = elem->_next;
   }
@@ -316,6 +318,47 @@ float ELORankGetELO(const ELORank* const that, const void* const data) {
   return elo;
 }
 
+// Get the current soft ELO (average of elo over nb of evaluation) 
+// of the entity 'data'
+float ELORankGetSoftELO(const ELORank* const that, 
+  const void* const data) {
+#if BUILDMODE == 0
+  // Check arguments
+  if (that == NULL) {
+    ELORankErr->_type = PBErrTypeNullPointer;
+    sprintf(ELORankErr->_msg, "'that' is null");
+    PBErrCatch(ELORankErr);
+  }
+  if (data == NULL) {
+    ELORankErr->_type = PBErrTypeNullPointer;
+    sprintf(ELORankErr->_msg, "'data' is null");
+    PBErrCatch(ELORankErr);
+  }
+#endif
+  // Declare a variable to memorize the ELO
+  float elo = ELORANK_STARTELO;
+  // Search the element
+  GSetElem* elem = that->_set._head;
+  while (elem != NULL && ((ELOEntity*)(elem->_data))->_data != data) {
+    elem = elem->_next;
+  }
+  if (elem != NULL) {
+    if (((ELOEntity*)(elem->_data))->_nbRun > 0) {
+      elo = ((ELOEntity*)(elem->_data))->_sumElo / 
+        (float)(((ELOEntity*)(elem->_data))->_nbRun);
+    }
+#if BUILDMODE == 0
+  } else {
+    ELORankErr->_type = PBErrTypeNullPointer;
+    sprintf(ELORankErr->_msg, 
+      "Entity requested can't be found in the ELORank.");
+    PBErrCatch(ELORankErr);
+#endif  
+  }
+  // Return the element
+  return elo;
+}
+
 // Set the current ELO of the entity 'data' to 'elo'
 void ELORankSetELO(const ELORank* const that, const void* const data, 
   const float elo) {
@@ -348,6 +391,45 @@ void ELORankSetELO(const ELORank* const that, const void* const data,
     PBErrCatch(ELORankErr);
 #endif  
   }
+  // Sort the ELORank
+  GSetSort((GSet*)&(that->_set));
+}
+
+// Reset the current ELO of the entity 'data'
+void ELORankResetELO(const ELORank* const that, const void* const data) {
+#if BUILDMODE == 0
+  // Check arguments
+  if (that == NULL) {
+    ELORankErr->_type = PBErrTypeNullPointer;
+    sprintf(ELORankErr->_msg, "'that' is null");
+    PBErrCatch(ELORankErr);
+  }
+  if (data == NULL) {
+    ELORankErr->_type = PBErrTypeNullPointer;
+    sprintf(ELORankErr->_msg, "'data' is null");
+    PBErrCatch(ELORankErr);
+  }
+#endif
+  // Search the element
+  GSetElem* elem = that->_set._head;
+  while (elem != NULL && ((ELOEntity*)(elem->_data))->_data != data) {
+    elem = elem->_next;
+  }
+  if (elem != NULL) {
+    // Reset the elo, nbRun and sumElo
+    elem->_sortVal = ELORANK_STARTELO;
+    ((ELOEntity*)(elem->_data))->_sumElo = 0.0;
+    ((ELOEntity*)(elem->_data))->_nbRun = 0;
+#if BUILDMODE == 0
+  } else {
+    ELORankErr->_type = PBErrTypeNullPointer;
+    sprintf(ELORankErr->_msg, 
+      "Entity requested can't be found in the ELORank.");
+    PBErrCatch(ELORankErr);
+#endif  
+  }
+  // Sort the ELORank
+  GSetSort((GSet*)&(that->_set));
 }
 
 // Get the 'rank'-th entity according to current ELO of 'that'  
