@@ -91,7 +91,7 @@ static ELOEntity* ELOEntityCreate(void* const data) {
   // Set properties
   that->_data = data;
   that->_nbRun = 0;
-  that->_sumElo = 0.0;
+  that->_sumSoftElo = 0.0;
   // Return the new ELOEntity
   return that;
 }
@@ -237,7 +237,10 @@ void ELORankUpdate(ELORank* const that, const GSet* const res) {
 #endif
     elemElo->_sortVal += VecGet(deltaElo, iElem);
     ++(((ELOEntity*)(elemElo->_data))->_nbRun);
-    ((ELOEntity*)(elemElo->_data))->_sumElo += elemElo->_sortVal;
+    if (((ELOEntity*)(elemElo->_data))->_nbRun >= 100) {
+      ((ELOEntity*)(elemElo->_data))->_sumSoftElo *= 0.99;
+    }
+    ((ELOEntity*)(elemElo->_data))->_sumSoftElo += elemElo->_sortVal;
     ++iElem;
     elem = elem->_next;
   }
@@ -344,8 +347,8 @@ float ELORankGetSoftELO(const ELORank* const that,
   }
   if (elem != NULL) {
     if (((ELOEntity*)(elem->_data))->_nbRun > 0) {
-      elo = ((ELOEntity*)(elem->_data))->_sumElo / 
-        (float)(((ELOEntity*)(elem->_data))->_nbRun);
+      elo = ((ELOEntity*)(elem->_data))->_sumSoftElo / 
+        (float)MIN(100, (((ELOEntity*)(elem->_data))->_nbRun));
     }
 #if BUILDMODE == 0
   } else {
@@ -416,9 +419,9 @@ void ELORankResetELO(const ELORank* const that, const void* const data) {
     elem = elem->_next;
   }
   if (elem != NULL) {
-    // Reset the elo, nbRun and sumElo
+    // Reset the elo, nbRun and sumSoftElo
     elem->_sortVal = ELORANK_STARTELO;
-    ((ELOEntity*)(elem->_data))->_sumElo = 0.0;
+    ((ELOEntity*)(elem->_data))->_sumSoftElo = 0.0;
     ((ELOEntity*)(elem->_data))->_nbRun = 0;
 #if BUILDMODE == 0
   } else {

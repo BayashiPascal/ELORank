@@ -27,7 +27,7 @@ typedef struct ELOEntity {
   // Number of evaluation
   int _nbRun;
   // Sum of evalutation
-  float _sumElo;
+  float _sumSoftElo;
 } ELOEntity;
 
 typedef struct ELORank {
