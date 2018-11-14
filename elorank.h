@@ -25,7 +25,7 @@ typedef struct ELOEntity {
   // Pointer toward user struct
   void* _data;
   // Number of evaluation
-  int _nbRun;
+  long _nbRun;
   // Sum of evalutation
   float _sumSoftElo;
 } ELOEntity;
