@@ -92,6 +92,7 @@ static ELOEntity* ELOEntityCreate(void* const data) {
   that->_data = data;
   that->_nbRun = 0;
   that->_sumSoftElo = 0.0;
+  that->_isMilestone = false;
   // Return the new ELOEntity
   return that;
 }
@@ -235,7 +236,10 @@ void ELORankUpdate(ELORank* const that, const GSet* const res) {
       PBErrCatch(ELORankErr);
     }
 #endif
-    elemElo->_sortVal += VecGet(deltaElo, iElem);
+    // If the entity is a milestone, its elo is blocked to its current
+    // value
+    if (!(((ELOEntity*)(elemElo->_data))->_isMilestone))
+      elemElo->_sortVal += VecGet(deltaElo, iElem);
     ++(((ELOEntity*)(elemElo->_data))->_nbRun);
     if (((ELOEntity*)(elemElo->_data))->_nbRun >= 100) {
       ((ELOEntity*)(elemElo->_data))->_sumSoftElo *= 0.99;
@@ -360,6 +364,58 @@ float ELORankGetSoftELO(const ELORank* const that,
   }
   // Return the element
   return elo;
+}
+
+// Set the milestone flag of the entity 'data' to 'flag'
+void ELORankSetIsMilestone(const ELORank* const that, 
+  const void* const data, const bool flag) {
+#if BUILDMODE == 0
+  // Check arguments
+  if (that == NULL) {
+    ELORankErr->_type = PBErrTypeNullPointer;
+    sprintf(ELORankErr->_msg, "'that' is null");
+    PBErrCatch(ELORankErr);
+  }
+  if (data == NULL) {
+    ELORankErr->_type = PBErrTypeNullPointer;
+    sprintf(ELORankErr->_msg, "'data' is null");
+    PBErrCatch(ELORankErr);
+  }
+#endif
+  // Search the element
+  GSetElem* elem = that->_set._head;
+  while (elem != NULL && ((ELOEntity*)(elem->_data))->_data != data) {
+    elem = elem->_next;
+  }
+  if (elem != NULL) {
+    // Set the flag 
+    ((ELOEntity*)(elem->_data))->_isMilestone = flag;
+#if BUILDMODE == 0
+  } else {
+    ELORankErr->_type = PBErrTypeNullPointer;
+    sprintf(ELORankErr->_msg, 
+      "Entity requested can't be found in the ELORank.");
+    PBErrCatch(ELORankErr);
+#endif  
+  }
+}
+
+// Reset the milestone flag of all the entitities to false
+void ELORankResetAllMilestone(const ELORank* const that) {
+#if BUILDMODE == 0
+  // Check arguments
+  if (that == NULL) {
+    ELORankErr->_type = PBErrTypeNullPointer;
+    sprintf(ELORankErr->_msg, "'that' is null");
+    PBErrCatch(ELORankErr);
+  }
+#endif
+  // Search the element
+  GSetElem* elem = that->_set._head;
+  while (elem != NULL) {
+    ((ELOEntity*)(elem->_data))->_isMilestone = false;
+    elem = elem->_next;
+  }
 }
 
 // Set the current ELO of the entity 'data' to 'elo'

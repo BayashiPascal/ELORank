@@ -28,6 +28,9 @@ typedef struct ELOEntity {
   long _nbRun;
   // Sum of evalutation
   float _sumSoftElo;
+  // Flag to memorize if the entity is a milestone
+  // (whose elo is blocked)
+  bool _isMilestone;
 } ELOEntity;
 
 typedef struct ELORank {
@@ -99,6 +102,13 @@ float ELORankGetSoftELO(const ELORank* const that,
 // Set the current ELO of the entity 'data' to 'elo'
 void ELORankSetELO(const ELORank* const that, const void* const data, 
   const float elo);
+
+// Set the milestone flag of the entity 'data' to 'flag'
+void ELORankSetIsMilestone(const ELORank* const that, 
+  const void* const data, const bool flag);
+
+// Reset the milestone flag of all the entitities to false
+void ELORankResetAllMilestone(const ELORank* const that);
 
 // Reset the current ELO of the entity 'data'
 void ELORankResetELO(const ELORank* const that, const void* const data);
