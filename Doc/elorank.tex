@@ -6,6 +6,8 @@ It uses the \begin{ttfamily}PBErr\end{ttfamily}, \begin{ttfamily}PBMath\end{ttfa
 
 \section{Definitions}
 
+\subsection{ELO rank}
+
 The ELO rank is calculated incrementally by updating the current ELO rank of each entity according to their result in an evaluation process independant from the ELO ranking system. Given a result of this evaluation process, each pair of winner/looser in this result is updated as follow:\\
 
 \begin{equation}
@@ -20,6 +22,25 @@ E'_l=E_l-K*\left(\frac{1.0}{1.0+10.0^{\frac{E_w-E_l}{400.0}}}\right)\\
 where $K=8.0$ and, $E_w$ and $E_l$ are respectively the current ELO of the winner and the current ELO of the looser and, $E'_w$ and $E'_l$ are respectively the new ELO of the winner and the new ELO of the looser.\\
 
 Tie between two entities results in no changes in their respective ELO rank.
+
+\subsection{Soft ELO rank}
+
+The soft ELO rank is the sliding average of the ELO rank over 100 evaluations:\\
+\begin{equation}
+softELO(N)=\left\lbrace
+\begin{array}{l}
+ELO(0)|_{N=0}\\
+((N-1)softELO(N-1)+ELO(N))/N|_{N<100}\\
+(0.99*(N-1)softELO(N-1)+ELO(N))/100|_{N\geq100}\\
+\end{array}
+\right.
+\end{equation}
+
+where $N\geq0$ is the number of evaluation.
+
+\subsection{Milestone}
+
+A milestone is an entity whose ELO rank is kept unchanged. Any other calculation is performed as usual, but the value of the ELO of this entity isn't updated. A milestone is useful when evaluating a pool of variable entities, for example during the training of a genetic algorithm where the non-elite entities are replaced at each step of the genetic algorithm. By setting the milestone to some cleverly selected entities, one can avoid the "relative" effect of the ELO algorithm and keep a ranking consistent even with respect of entities removed from the ranking. Refer to the Oware example in the MiniFrame repository for an illustration of the use of the milestone property. 
 
 \section{Interface}
 

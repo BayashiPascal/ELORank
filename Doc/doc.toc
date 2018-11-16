@@ -1,9 +1,12 @@
 \contentsline {section}{\numberline {1}Definitions}{2}
-\contentsline {section}{\numberline {2}Interface}{2}
-\contentsline {section}{\numberline {3}Code}{4}
-\contentsline {subsection}{\numberline {3.1}elorank.c}{4}
+\contentsline {subsection}{\numberline {1.1}ELO rank}{2}
+\contentsline {subsection}{\numberline {1.2}Soft ELO rank}{2}
+\contentsline {subsection}{\numberline {1.3}Milestone}{2}
+\contentsline {section}{\numberline {2}Interface}{3}
+\contentsline {section}{\numberline {3}Code}{5}
+\contentsline {subsection}{\numberline {3.1}elorank.c}{5}
 \contentsline {subsection}{\numberline {3.2}elorank-inline.c}{13}
 \contentsline {section}{\numberline {4}Makefile}{14}
-\contentsline {section}{\numberline {5}Unit tests}{14}
-\contentsline {section}{\numberline {6}Unit tests output}{17}
-\contentsline {section}{\numberline {7}ELORank.txt}{17}
+\contentsline {section}{\numberline {5}Unit tests}{15}
+\contentsline {section}{\numberline {6}Unit tests output}{18}
+\contentsline {section}{\numberline {7}ELORank.txt}{18}
