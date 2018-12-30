@@ -8,7 +8,7 @@ all: pbmake_wget main
 	
 # Automatic installation of the repository PBMake in the parent folder
 pbmake_wget:
-	if [ ! -d ../PBMake ]; then wget https://github.com/BayashiPascal/PBMake/archive/master.zip; unzip master.zip; rm -f master.zip; sed -i 's@ROOT_DIR=.*@ROOT_DIR='"`pwd | awk -F/ 'NF{NF-=1};1' | sed --expression='s@ @/@g'`"'@' PBMake-master/Makefile.inc; mv PBMake-master ../PBMake; fi
+	if [ ! -d ../PBMake ]; then wget https://github.com/BayashiPascal/PBMake/archive/master.zip; unzip master.zip; rm -f master.zip; sed -i '' 's@ROOT_DIR=.*@ROOT_DIR='"`pwd | gawk -F/ 'NF{NF-=1};1' | sed -e 's@ @/@g'`"'@' PBMake-master/Makefile.inc; mv PBMake-master ../PBMake; fi
 
 # Makefile definitions
 MAKEFILE_INC=../PBMake/Makefile.inc
