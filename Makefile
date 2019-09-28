@@ -2,7 +2,7 @@
 # 0: development (max safety, no optimisation)
 # 1: release (min safety, optimisation)
 # 2: fast and furious (no safety, optimisation)
-BUILD_MODE?=0
+BUILD_MODE?=1
 
 all: pbmake_wget main
 	

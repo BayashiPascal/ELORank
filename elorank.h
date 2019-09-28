@@ -57,13 +57,13 @@ void ELOEntityFree(ELOEntity** that);
 
 // Set the K coefficient of 'that' to 'k' 
 #if BUILDMODE != 0
-inline
+static inline
 #endif
 void ELORankSetK(ELORank* const that, const float k);
 
 // Get the K coefficient of 'that' 
 #if BUILDMODE != 0
-inline
+static inline
 #endif
 float ELORankGetK(const ELORank* const that);
 
@@ -75,7 +75,7 @@ void ELORankRemove(ELORank* const that, void* data);
 
 // Get the number of entity in 'that'
 #if BUILDMODE != 0
-inline
+static inline
 #endif
 int ELORankGetNb(const ELORank* const that);
 
@@ -117,7 +117,7 @@ void ELORankResetELO(const ELORank* const that, const void* const data);
 // (starts at 0)
 const ELOEntity* ELORankGetRanked(const ELORank* const that, const int rank);
 
-// ================ Inliner ====================
+// ================ static inliner ====================
 
 #if BUILDMODE != 0
 #include "elorank-inline.c"
